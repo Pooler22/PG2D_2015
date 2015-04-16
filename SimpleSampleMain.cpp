@@ -13,6 +13,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 
+//This file is versioned in Visual Studio Online
+
+
 #include "pch.h"
 #include "SimpleSampleMain.h"
 
