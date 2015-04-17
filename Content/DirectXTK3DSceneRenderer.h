@@ -13,6 +13,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 //
+//Just testing
 #pragma once
 
 #include "..\Common\DeviceResources.h"
