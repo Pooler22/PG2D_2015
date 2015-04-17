@@ -87,6 +87,9 @@ namespace SimpleSample
 		
 		std::unique_ptr<Wall>													wall;
 		std::unique_ptr<Wall>													wall2;
+		std::vector<Wall>														wallsVector;
+		//std::vector<
+
 		std::wstring																collisionString;
 
 		// Variables used with the rendering loop.

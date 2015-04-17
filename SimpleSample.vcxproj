@@ -182,6 +182,7 @@
     <Image Include="Assets\cloud2.dds" />
     <Image Include="Assets\clouds.dds" />
     <Image Include="Assets\clouds2.dds" />
+    <Image Include="Assets\enemyanimated.dds" />
     <Image Include="Assets\Logo.png" />
     <Image Include="Assets\pipe.dds" />
     <Image Include="Assets\pipe.png" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Content\AnimatedTexture.h" />
     <ClInclude Include="Content\DirectXTK3DSceneRenderer.h" />
     <ClInclude Include="Content\ScrollingBackground.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SimpleSampleMain.h" />
     <ClInclude Include="Common\DirectXHelper.h" />

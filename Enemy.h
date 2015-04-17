@@ -15,15 +15,15 @@
 #include <DirectXTK\Inc\SimpleMath.h>
 
 
-class Player
+class Enemy
 {
 public:
-	Player(ID3D11ShaderResourceView* playerSpriteSheet) : framesOfAnimation(4), framesToBeShownPerSecond(4)
+	Enemy(ID3D11ShaderResourceView* enemySpriteSheet) : framesOfAnimation(4), framesToBeShownPerSecond(4)
 	{
 		position = DirectX::XMFLOAT2(512, 512);
-		
+
 		//Instantiate animation here
-		texture = playerSpriteSheet;
+		texture = enemySpriteSheet;
 		float rotation = 0.f;
 		float scale = 3.f;
 		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, scale, 0.5f));
@@ -36,7 +36,7 @@ public:
 		rectangle.Y = position.y;
 		rectangle.Height = height;
 		rectangle.Width = width;
-		
+
 	}
 
 	void Update(float elapsed)

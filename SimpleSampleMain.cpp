@@ -29,10 +29,10 @@ SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& d
 {
     m_sceneRenderer = std::unique_ptr<DirectXTK3DSceneRenderer>(new DirectXTK3DSceneRenderer(m_deviceResources));
 
-	/*
+	
 	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 60);
-	*/
+	m_timer.SetTargetElapsedSeconds(1.0 / 30);
+	
 	m_deviceResources->RegisterDeviceNotify(this);
 }
 

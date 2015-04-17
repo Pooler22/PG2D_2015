@@ -62,6 +62,9 @@
     <ClInclude Include="Wall.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -119,6 +122,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\SmallLogo.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\enemyanimated.dds">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
