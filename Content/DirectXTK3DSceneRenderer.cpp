@@ -73,6 +73,7 @@ void DirectXTK3DSceneRenderer::CreateAudioResources()
     //m_effect2->Play();
 }
 
+//This is the UPDATE Function
 void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 {
     
@@ -106,6 +107,27 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
         m_retryDefault = true;
     }
 
+	//GamePad
+	auto state = gamePad->GetState(0);
+	if (state.IsConnected())
+	{
+		if (state.dpad.up)
+		{
+			XMFLOAT2 tempPos = player->getPosition();
+			tempPos.y -= 10;
+			player->setPosition(tempPos);
+		}
+
+		if (state.dpad.down)
+		{
+			XMFLOAT2 tempPos = player->getPosition();
+			tempPos.y += 10;
+			player->setPosition(tempPos);
+		}
+
+	}
+
+
 	//Update Background
 	background->Update((float)timer.GetElapsedSeconds() * 100);
 	clouds->Update((float)timer.GetElapsedSeconds() * 300);
@@ -116,25 +138,17 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 	//animation->Update((float)timer.GetElapsedSeconds());
 	player->Update((float)timer.GetElapsedSeconds());
 
-	wall->Update((float)timer.GetElapsedSeconds());
-	if(wall->isCollidingWith(player->rectangle))
+	collisionString = L"There is no collision";
+	for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
 	{
-		collisionString = L"Collision with 1st Wall";
-	}
-	else {
-		collisionString = L"No collision with 1st Wall";
-	}
-	
-	collisionString += L"; ";
-	wall2->Update((float)timer.GetElapsedSeconds());
-	if (wall2->isCollidingWith(player->rectangle))
-	{
-		collisionString += L"Collision with 2nd Wall";
-	}
-	else{
-		collisionString += L"No collision with 2nd Wall";
-	}
 
+		(*wallsIterator).Update((float)timer.GetElapsedSeconds());
+		if ((*wallsIterator).isCollidingWith(player->rectangle)){
+			collisionString = L"There is a collision with the wall";
+
+			//gamePad->SetVibration(0, 0.5f, 0.25f);
+		}
+	}
 
 }
 
@@ -187,6 +201,7 @@ void DirectXTK3DSceneRenderer::NewAudioDevice()
 //   m_batch->End();
 //}
 
+//this is the DRAW function
 void DirectXTK3DSceneRenderer::Render()
 {
 	auto context = m_deviceResources->GetD3DDeviceContext();
@@ -194,7 +209,7 @@ void DirectXTK3DSceneRenderer::Render()
 	// Set render targets to the screen.
 	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
 	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
-	
+
 	D3D11_TEXTURE2D_DESC pDesc;
 	Microsoft::WRL::ComPtr<ID3D11Resource> res;
 	//1.) -----------------
@@ -209,19 +224,25 @@ void DirectXTK3DSceneRenderer::Render()
 
 	auto height = pDesc.Height; //texture height
 	auto width = pDesc.Width; //texture width
-	
+
 	auto windowSize = m_deviceResources->GetOutputSize(); // physical screen resolution
 	auto logicalSize = m_deviceResources->GetLogicalSize(); //DPI dependent resolution
 
-    // Draw sprites
-    m_sprites->Begin();
-	
+	// Draw sprites
+	m_sprites->Begin();
+
 	background->Draw(m_sprites.get());
 	clouds->Draw(m_sprites.get());
-	
 
-	wall->Draw(m_sprites.get());
-	wall2->Draw(m_sprites.get());
+	//Drawing walls
+
+	for (auto wall : wallsVector)
+	{
+		wall.Draw(m_sprites.get());
+	}
+
+	//wall->Draw(m_sprites.get());
+	//wall2->Draw(m_sprites.get());
 	player->Draw(m_sprites.get());
 
 	clouds2->Draw(m_sprites.get());
@@ -232,6 +253,7 @@ void DirectXTK3DSceneRenderer::Render()
 
 }
 
+//this is the LOAD function
 void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 {
 	// Create DirectXTK objects
@@ -243,7 +265,6 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	spriteBatchT2.reset(new SpriteBatch(context));
 
 	m_font.reset(new SpriteFont(device, L"assets\\italic.spritefont"));
-
 
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\shipanimated.dds", nullptr, m_texture.ReleaseAndGetAddressOf())
@@ -271,6 +292,10 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	clouds2.reset(new ScrollingBackground);
 	clouds2->Load(cloudsTexture2.Get());
 
+	DX::ThrowIfFailed(
+		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
+		);
+	//TODO: Instatiate enemies here
 
 	auto windowSize = m_deviceResources->GetOutputSize(); // physical screen resolution
 	auto logicalSize = m_deviceResources->GetLogicalSize(); //DPI dependent resolution
@@ -278,14 +303,26 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\pipe.dds", nullptr, pipeTexture.ReleaseAndGetAddressOf())
 		);
-	wall.reset(new Wall(logicalSize, XMFLOAT2(768, 0), pipeTexture.Get()));
-	wall2.reset(new Wall(logicalSize, XMFLOAT2(128, 0), pipeTexture.Get()));
+	
+	//Adding walls to vector
+	//wallsVector.push_back(Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
+	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(200, 0), pipeTexture.Get()));
+	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(400, 0), pipeTexture.Get()));
+	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(600, 0), pipeTexture.Get()));
+	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
+	
+	//wall.reset(new Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
+	//wall2.reset(new Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
 
 
 	//set windows size for drawing the background
 	background->SetWindow(logicalSize.Width, logicalSize.Height);
 	clouds->SetWindow(logicalSize.Width, logicalSize.Height);
 	clouds2->SetWindow(logicalSize.Width, logicalSize.Height);
+
+
+	//Gamepad
+	gamePad.reset(new GamePad);
 
 }
 

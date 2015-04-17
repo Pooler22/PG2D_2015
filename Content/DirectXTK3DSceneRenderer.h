@@ -31,6 +31,8 @@
 #include "ScrollingBackground.h"
 #include "Player.h"
 #include "Wall.h"
+#include "Enemy.h"
+#include "GamePad.h"
 
 #include "DirectXTK\Inc\SimpleMath.h"
 
@@ -72,6 +74,7 @@ namespace SimpleSample
         std::unique_ptr<DirectX::SoundEffectInstance>                           m_effect2;
 
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>                        m_texture;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						enemyTexture;
 		std::unique_ptr<AnimatedTexture>										animation;
 
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>                        pipeTexture;
@@ -85,12 +88,11 @@ namespace SimpleSample
 		std::unique_ptr<ScrollingBackground>									clouds2;
 		std::unique_ptr<Player>													player;
 		
-		std::unique_ptr<Wall>													wall;
-		std::unique_ptr<Wall>													wall2;
+		std::unique_ptr<GamePad>												gamePad;
 		std::vector<Wall>														wallsVector;
-		//std::vector<
+		std::vector<Enemy>														enemiesVector;
 
-		std::wstring																collisionString;
+		std::wstring															collisionString;
 
 		// Variables used with the rendering loop.
         uint32_t                                                                m_audioEvent;

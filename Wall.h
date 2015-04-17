@@ -42,7 +42,6 @@ public:
 		wallRect.Height = screenSize.Height;
 
 		//Initialize randomness
-		mt.seed(rd());
 		randomizeGap();
 
 	}
@@ -59,7 +58,6 @@ public:
 		}
 
 	}
-
 
 	void Draw(DirectX::SpriteBatch *batch)
 	{
@@ -102,6 +100,9 @@ private:
 	{
 		//set up the rectangle for gap
 		//RANDOMIZE, DO NOT USE rand() !!!!!!!!!
+		std::random_device rd;
+		std::mt19937 mt;
+		mt.seed(rd());
 
 		std::uniform_int_distribution<int> dist(0, screenSize.Height - gapMinHeight); //Choose distribution of the result (inclusive,inclusive)
 
@@ -124,6 +125,7 @@ private:
 		lower.Height = screenSize.Height - (upper.Height + gap.Height);
 		lowerScalingFactor.x = 1;
 		lowerScalingFactor.y = lower.Height / mainTextureDescription.Height;
+
 
 	}
 
@@ -151,7 +153,7 @@ private:
 	XMFLOAT2											m_origin;
 
 	//Randomizer
-	std::random_device rd; // create random device - will generate random number
-	std::mt19937 mt; // use random number to seed Mersenne Twister 19937 generator
+	//std::random_device rd; // create random device - will generate random number
+	//std::mt19937 mt; // use random number to seed Mersenne Twister 19937 generator
 
 };
