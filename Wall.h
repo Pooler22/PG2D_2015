@@ -65,12 +65,10 @@ public:
 		XMVECTOR origin = XMLoadFloat2(&m_origin);
 
 		//Draw upper part of the wall
-
 		batch->Draw(m_mainTexture.Get(), XMLoadFloat2(&XMFLOAT2(upper.X, upper.Y)), nullptr,
 			Colors::White, 0.f, origin, XMLoadFloat2(&upperScalingFactor), SpriteEffects_None, 0.f);
 
 		//Draw lower part of the wall
-
 		batch->Draw(m_mainTexture.Get(), XMLoadFloat2(&XMFLOAT2(lower.X, lower.Y)), nullptr,
 		Colors::White, 0.f, origin, XMLoadFloat2(&lowerScalingFactor), SpriteEffects_None, 0.f);
 
