@@ -22,6 +22,8 @@
 
 using namespace SimpleSample;
 
+//Checking if repository works
+
 // Loads and initializes application assets when the application is loaded.
 SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
 	m_deviceResources(deviceResources)
