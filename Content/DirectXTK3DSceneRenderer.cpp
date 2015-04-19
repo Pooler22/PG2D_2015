@@ -108,22 +108,25 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
     }
 
 	//GamePad
-	auto state = gamePad->GetState(0);
-	if (state.IsConnected())
+	auto statePlayerOne = gamePad->GetState(0);
+	if (statePlayerOne.IsConnected())
 	{
-		if (state.dpad.up)
-		{
-			XMFLOAT2 tempPos = player->getPosition();
-			tempPos.y -= 10;
-			player->setPosition(tempPos);
+		XMFLOAT2 tempPos = player->getPosition();
+		if (statePlayerOne.IsDPadUpPressed()){
+			tempPos.y -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
 		}
 
-		if (state.dpad.down)
-		{
-			XMFLOAT2 tempPos = player->getPosition();
-			tempPos.y += 10;
-			player->setPosition(tempPos);
+		if (statePlayerOne.IsDPadDownPressed()){
+			tempPos.y += 10; ////CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
 		}
+		
+		if (statePlayerOne.IsDPadLeftPressed()){
+			tempPos.x -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
+		}
+		if (statePlayerOne.IsDPadRightPressed()){
+			tempPos.x += 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 	
+		}
+		player->setPosition(tempPos);
 
 	}
 
@@ -139,6 +142,7 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 	player->Update((float)timer.GetElapsedSeconds());
 
 	collisionString = L"There is no collision";
+	gamePad->SetVibration(0, 0.f, 0.f);
 	for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
 	{
 
@@ -146,7 +150,7 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 		if ((*wallsIterator).isCollidingWith(player->rectangle)){
 			collisionString = L"There is a collision with the wall";
 
-			//gamePad->SetVibration(0, 0.5f, 0.25f);
+			gamePad->SetVibration(0, 0.75f, 0.75f);
 		}
 	}
 
@@ -306,10 +310,10 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	
 	//Adding walls to vector
 	//wallsVector.push_back(Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
-	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(200, 0), pipeTexture.Get()));
-	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(400, 0), pipeTexture.Get()));
-	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(600, 0), pipeTexture.Get()));
-	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
+	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(logicalSize.Width, 0), pipeTexture.Get()));
+	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(400, 0), pipeTexture.Get()));
+	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(600, 0), pipeTexture.Get()));
+	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
 	
 	//wall.reset(new Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
 	//wall2.reset(new Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
@@ -328,7 +332,12 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 
 void DirectXTK3DSceneRenderer::ReleaseDeviceDependentResources()
 {
+	//TODO:
     m_sprites.reset();
     m_font.reset();
     m_texture.Reset();
+	backgroundTexture.Reset();
+	cloudsTexture.Reset();
+	cloudsTexture2.Reset();
+	enemyTexture.Reset();
 }
