@@ -14,6 +14,8 @@
 #include <DirectXMath.h>
 #include <DirectXTK\Inc\SimpleMath.h>
 
+#include "Wall.h"
+
 
 class Enemy
 {

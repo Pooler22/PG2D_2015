@@ -104,7 +104,7 @@ private:
 		std::mt19937 mt;
 		mt.seed(rd());
 
-		std::uniform_int_distribution<int> dist(0, screenSize.Height - gapMinHeight); //Choose distribution of the result (inclusive,inclusive)
+		std::uniform_int_distribution<int> dist(0, (int)screenSize.Height - gapMinHeight); //Choose distribution of the result (inclusive,inclusive)
 
 		gap.X = wallRect.X;
 		gap.Y = dist(mt);

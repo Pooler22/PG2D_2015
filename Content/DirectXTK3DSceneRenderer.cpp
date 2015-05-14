@@ -76,7 +76,7 @@ void DirectXTK3DSceneRenderer::CreateAudioResources()
 //This is the UPDATE Function
 void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 {
-    
+
     m_audioTimerAcc -= (float)timer.GetElapsedSeconds();
     if (m_audioTimerAcc < 0)
     {
@@ -107,6 +107,7 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
         m_retryDefault = true;
     }
 
+#pragma region Gamepad
 	//GamePad
 	auto statePlayerOne = gamePad->GetState(0);
 	if (statePlayerOne.IsConnected())
@@ -127,19 +128,27 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 			tempPos.x += 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 	
 		}
 		player->setPosition(tempPos);
-
 	}
+#pragma endregion Handling the Gamepad Input
 
-
+#pragma region Paralaxing background
 	//Update Background
 	background->Update((float)timer.GetElapsedSeconds() * 100);
 	clouds->Update((float)timer.GetElapsedSeconds() * 300);
 	clouds2->Update((float)timer.GetElapsedSeconds() * 900);
+#pragma endregion Handling the paralaxing backgrounds
+	
 	//auto test = timer.GetElapsedSeconds();
+
 
 	//update the animation
 	//animation->Update((float)timer.GetElapsedSeconds());
 	player->Update((float)timer.GetElapsedSeconds());
+
+#pragma region Enemy AI
+	// TODO: handle enemy AI using promises and Lambdas
+
+#pragma endregion Handling Enemy AI using std::async, std::Promise and std::Future. Also using C++11 Lambdas
 
 	collisionString = L"There is no collision";
 	gamePad->SetVibration(0, 0.f, 0.f);
