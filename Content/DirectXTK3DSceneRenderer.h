@@ -15,6 +15,8 @@
 
 #pragma once
 
+#include <future>
+
 #include "..\Common\DeviceResources.h"
 #include "..\Common\StepTimer.h"
 

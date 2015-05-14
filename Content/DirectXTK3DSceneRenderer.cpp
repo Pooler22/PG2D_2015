@@ -147,9 +147,35 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 #pragma region Enemy AI
 	// TODO: handle enemy AI using promises and Lambdas
+	std::vector<std::future<DirectX::XMFLOAT2>> futures;
+	
+	for (auto enemy : enemiesVector)
+	{
+		futures.push_back( std::async(std::launch::async,
+			[]()
+		{
+			DirectX::XMFLOAT2 tempPos;
+			//TODO: Write code for very complicated AI here
+			
+			
+			return tempPos;
 
-#pragma endregion Handling Enemy AI using std::async, std::Promise and std::Future. Also using C++11 Lambdas
+		}) );
+	}
 
+	for (auto &future : futures)
+	{
+		auto enemiesIterator = enemiesVector.begin();
+		
+		DirectX::XMFLOAT2 tempPos;
+		tempPos = future.get();
+		//(*enemiesIterator).setPosition(tempPos);
+		//enemiesIterator++;
+	}
+
+#pragma endregion Handling Enemy AI using std::async and std::Future. Also using C++11 Lambdas
+
+#pragma region Collisions
 	collisionString = L"There is no collision";
 	gamePad->SetVibration(0, 0.f, 0.f);
 	for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
@@ -162,6 +188,7 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 			gamePad->SetVibration(0, 0.75f, 0.75f);
 		}
 	}
+#pragma endregion Handling collision detection + simple GamePad rumble on crash
 
 }
 
