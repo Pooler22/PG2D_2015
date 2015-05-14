@@ -273,6 +273,12 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	auto device = m_deviceResources->GetD3DDevice();
 
 	auto context = m_deviceResources->GetD3DDeviceContext();
+
+
+	auto windowSize = m_deviceResources->GetOutputSize(); // physical screen resolution
+	auto logicalSize = m_deviceResources->GetLogicalSize(); //DPI dependent resolution
+
+
 	m_sprites.reset(new SpriteBatch(context));
 	spriteBatchT1.reset(new SpriteBatch(context));
 	spriteBatchT2.reset(new SpriteBatch(context));
@@ -283,8 +289,6 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 		CreateDDSTextureFromFile(device, L"assets\\shipanimated.dds", nullptr, m_texture.ReleaseAndGetAddressOf())
 		);
 	player.reset(new Player(m_texture.Get()));
-	//animation.reset(new AnimatedTexture(XMFLOAT2(0.f, 0.f), 1.57f, 3.f, 0.5f));
-	//animation->Load(m_texture.Get(), 4, 4);
 
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\background.dds", nullptr, backgroundTexture.ReleaseAndGetAddressOf())
@@ -312,10 +316,6 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	Enemy enemyTemp(enemyTexture.Get());
 	enemiesVector.push_back(enemyTemp);
 
-
-	auto windowSize = m_deviceResources->GetOutputSize(); // physical screen resolution
-	auto logicalSize = m_deviceResources->GetLogicalSize(); //DPI dependent resolution
-
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\pipe.dds", nullptr, pipeTexture.ReleaseAndGetAddressOf())
 		);
@@ -324,7 +324,6 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	//wallsVector.push_back(Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
 	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(logicalSize.Width, 0), pipeTexture.Get()));
 	
-
 
 	//set windows size for drawing the background
 	background->SetWindow(logicalSize.Width, logicalSize.Height);
@@ -346,5 +345,6 @@ void DirectXTK3DSceneRenderer::ReleaseDeviceDependentResources()
 	backgroundTexture.Reset();
 	cloudsTexture.Reset();
 	cloudsTexture2.Reset();
+	pipeTexture.Reset();
 	enemyTexture.Reset();
 }
