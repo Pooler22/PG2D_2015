@@ -300,6 +300,9 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
 		);
 	//TODO: Instatiate enemies here
+	Enemy enemyTemp(enemyTexture.Get());
+	enemiesVector.push_back(enemyTemp);
+
 
 	auto windowSize = m_deviceResources->GetOutputSize(); // physical screen resolution
 	auto logicalSize = m_deviceResources->GetLogicalSize(); //DPI dependent resolution
@@ -311,12 +314,7 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	//Adding walls to vector
 	//wallsVector.push_back(Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
 	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(logicalSize.Width, 0), pipeTexture.Get()));
-	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(400, 0), pipeTexture.Get()));
-	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(600, 0), pipeTexture.Get()));
-	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
 	
-	//wall.reset(new Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
-	//wall2.reset(new Wall(logicalSize, XMFLOAT2(800, 0), pipeTexture.Get()));
 
 
 	//set windows size for drawing the background

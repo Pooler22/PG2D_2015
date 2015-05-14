@@ -39,6 +39,26 @@ public:
 
 	}
 
+	void setPosition(DirectX::XMFLOAT2 newPosition)
+	{
+		//set the position
+		position = newPosition;
+		updateBoundingRect();
+	}
+
+	void setPosition(float posX, float posY)
+	{
+		position.x = posX;
+		position.y = posY;
+		updateBoundingRect();
+	}
+
+	DirectX::XMFLOAT2 getPosition()
+	{
+		return position;
+	}
+
+
 	void Update(float elapsed)
 	{
 		animation->Update(elapsed);
@@ -53,6 +73,15 @@ public:
 	Windows::Foundation::Rect							rectangle;
 
 private:
+	void updateBoundingRect()
+	{
+		//TODO: proper updating when rotating object
+		rectangle.X = position.x;
+		rectangle.Y = position.y;
+		rectangle.Height = height;
+		rectangle.Width = width;
+	}
+
 	DirectX::XMFLOAT2									position;
 
 	int													width;
@@ -64,6 +93,6 @@ private:
 
 	//Texture and animation
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	texture;
-	std::unique_ptr<AnimatedTexture>					animation;
+	std::shared_ptr<AnimatedTexture>					animation;
 
 };

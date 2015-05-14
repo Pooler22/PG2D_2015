@@ -98,6 +98,8 @@ private:
 	{
 		//set up the rectangle for gap
 		//RANDOMIZE, DO NOT USE rand() !!!!!!!!!
+		
+		
 		std::random_device rd;
 		std::mt19937 mt;
 		mt.seed(rd());
@@ -123,6 +125,7 @@ private:
 		lower.Height = screenSize.Height - (upper.Height + gap.Height);
 		lowerScalingFactor.x = 1;
 		lowerScalingFactor.y = lower.Height / mainTextureDescription.Height;
+
 
 
 	}
