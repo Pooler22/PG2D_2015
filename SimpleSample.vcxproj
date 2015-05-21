@@ -200,6 +200,8 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Common\DeviceResources.h" />
+    <ClInclude Include="Common\InputManager.h" />
+    <ClInclude Include="Common\OverlayManager.h" />
     <ClInclude Include="Content\AnimatedTexture.h" />
     <ClInclude Include="Content\DirectXTK3DSceneRenderer.h" />
     <ClInclude Include="Content\ScrollingBackground.h" />
@@ -214,6 +216,8 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Common\DeviceResources.cpp" />
+    <ClCompile Include="Common\InputManager.cpp" />
+    <ClCompile Include="Common\OverlayManager.cpp" />
     <ClCompile Include="Content\DirectXTK3DSceneRenderer.cpp" />
     <ClCompile Include="SimpleSampleMain.cpp" />
     <ClCompile Include="pch.cpp">

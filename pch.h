@@ -12,3 +12,6 @@
 #include <memory>
 #include <agile.h>
 #include <concrt.h>
+#include <ppl.h>
+#include <unordered_map>
+
