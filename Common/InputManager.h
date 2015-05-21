@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 #include <Xinput.h>
-#include "StepTimer.h"
+#include "Common\StepTimer.h"
 
 #include <DirectXMath.h>
 #include <interlockedapi.h>

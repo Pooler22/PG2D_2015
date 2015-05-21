@@ -9,8 +9,8 @@
 
 #include <string>
 #include <vector>
-#include "..\Common\DeviceResources.h"
-#include "..\Common\StepTimer.h"
+#include "Common\DeviceResources.h"
+#include "Common\StepTimer.h"
 
 namespace DirectXGame1
 {

@@ -29,10 +29,17 @@ SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& d
 {
     m_sceneRenderer = std::unique_ptr<DirectXTK3DSceneRenderer>(new DirectXTK3DSceneRenderer(m_deviceResources));
 
-	
+	//TODO: Insert stuff here - initialization
+
+
+
+
+	// Setting render target to 30 FPS !!!!!!!!!!!!!!
+
 	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 30);
-	
+	m_timer.SetTargetElapsedSeconds(1.0 / 30); 
+	// Remember - it is usually not necessary to limit the framerate, it will be capped to display refresh rate anyway, usually 60 Hz, - default Windows Apps behaviour
+
 	m_deviceResources->RegisterDeviceNotify(this);
 }
 
