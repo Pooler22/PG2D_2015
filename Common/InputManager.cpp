@@ -10,7 +10,7 @@
 
 using namespace DirectX;
 
-using namespace DirectXGame1;
+using namespace SimpleSample;
 
 
 #pragma region InputManagerClass

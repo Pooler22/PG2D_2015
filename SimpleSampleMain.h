@@ -53,7 +53,9 @@ namespace SimpleSample
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
-		
+		//TODO:: Finish adding proper stuff here !!!
+
+
 
 
 		std::unique_ptr<DirectXTK3DSceneRenderer> m_sceneRenderer;

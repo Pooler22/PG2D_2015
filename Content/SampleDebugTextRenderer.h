@@ -13,7 +13,7 @@
 #include "Common/InputManager.h"
 #include "Common/OverlayManager.h"
 
-namespace DirectXGame1
+namespace SimpleSample
 {
     // Renders the current  value in the bottom right corner of the screen using Direct2D and DirectWrite.
     class SampleDebugTextRenderer : public Overlay

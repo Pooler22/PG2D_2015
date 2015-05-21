@@ -9,7 +9,7 @@
 #include "SampleDebugTextRenderer.h"
 #include "Common/DirectXHelper.h"
 
-using namespace DirectXGame1;
+using namespace SimpleSample;
 
 // Initializes D2D resources used for text rendering.
 SampleDebugTextRenderer::SampleDebugTextRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources) :

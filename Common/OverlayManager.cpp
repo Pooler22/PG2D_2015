@@ -10,7 +10,7 @@
 
 #include "Common/DirectXHelper.h"
 
-using namespace DirectXGame1;
+using namespace SimpleSample;
 
 // Initializes D2D resources.
 OverlayManager::OverlayManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
