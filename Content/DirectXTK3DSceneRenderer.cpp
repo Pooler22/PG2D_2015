@@ -165,6 +165,8 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 	for (auto &future : futures)
 	{
+		//TODO:get results
+		
 		auto enemiesIterator = enemiesVector.begin();
 		
 		DirectX::XMFLOAT2 tempPos;
