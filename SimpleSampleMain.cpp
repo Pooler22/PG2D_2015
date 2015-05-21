@@ -22,6 +22,11 @@
 
 using namespace SimpleSample;
 
+//Added for Input and Overlay
+using namespace Windows::Foundation;
+using namespace Windows::System::Threading;
+using namespace Concurrency;
+
 
 // Loads and initializes application assets when the application is loaded.
 SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
@@ -30,8 +35,6 @@ SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& d
     m_sceneRenderer = std::unique_ptr<DirectXTK3DSceneRenderer>(new DirectXTK3DSceneRenderer(m_deviceResources));
 
 	//TODO: Insert stuff here - initialization
-
-
 
 
 	// Setting render target to 30 FPS !!!!!!!!!!!!!!

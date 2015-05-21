@@ -17,7 +17,15 @@
 
 #include "Common\StepTimer.h"
 #include "Common\DeviceResources.h"
+#include "Common\InputManager.h"
+#include "Common\OverlayManager.h"
+
+
 #include "Content\DirectXTK3DSceneRenderer.h"
+#include "Content\SampleDebugTextRenderer.h"
+#include "Content\SampleVirtualControllerRenderer.h"
+
+
 
 // Renders Direct2D and 3D content on the screen.
 namespace SimpleSample
@@ -39,8 +47,14 @@ namespace SimpleSample
         virtual void OnDeviceRestored();
 
 	private:
+		void InitializeTouchRegions();
+		void ProcessInput(std::vector<PlayerInputData>* playerActions);
+		
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+
+		
+
 
 		std::unique_ptr<DirectXTK3DSceneRenderer> m_sceneRenderer;
 

@@ -45,6 +45,12 @@
     <ClCompile Include="Common\OverlayManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Content\SampleDebugTextRenderer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -76,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="Common\OverlayManager.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\SampleDebugTextRenderer.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\SampleVirtualControllerRenderer.h">
+      <Filter>Content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

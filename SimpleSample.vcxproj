@@ -204,6 +204,8 @@
     <ClInclude Include="Common\OverlayManager.h" />
     <ClInclude Include="Content\AnimatedTexture.h" />
     <ClInclude Include="Content\DirectXTK3DSceneRenderer.h" />
+    <ClInclude Include="Content\SampleDebugTextRenderer.h" />
+    <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
     <ClInclude Include="Content\ScrollingBackground.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
@@ -219,6 +221,8 @@
     <ClCompile Include="Common\InputManager.cpp" />
     <ClCompile Include="Common\OverlayManager.cpp" />
     <ClCompile Include="Content\DirectXTK3DSceneRenderer.cpp" />
+    <ClCompile Include="Content\SampleDebugTextRenderer.cpp" />
+    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp" />
     <ClCompile Include="SimpleSampleMain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

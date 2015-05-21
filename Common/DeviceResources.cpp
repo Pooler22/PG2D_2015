@@ -2,6 +2,8 @@
 #include "DeviceResources.h"
 #include "DirectXHelper.h"
 
+#include <windows.ui.xaml.media.dxinterop.h>
+
 using namespace D2D1;
 using namespace DirectX;
 using namespace Microsoft::WRL;
