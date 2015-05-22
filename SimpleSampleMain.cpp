@@ -36,6 +36,37 @@ SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& d
 
 	//TODO: Insert stuff here - initialization
 
+	m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
+
+	// Note to developer: Use these to get input data, play audio, and draw HUDs and menus.
+	m_inputManager = std::unique_ptr<InputManager>(new InputManager());
+	m_overlayManager = std::unique_ptr<OverlayManager>(new OverlayManager(m_deviceResources));
+
+	// This vector will be sent to the overlay manager.
+	std::vector<std::shared_ptr<Overlay>> overlays;
+	overlays.push_back(m_debugTextRenderer);
+
+	// Check whether the device is touch capable before setting up the virtual controller.
+	TouchCapabilities^ pTouchCapabilities = ref new TouchCapabilities();
+	if (pTouchCapabilities->TouchPresent != 0)
+	{
+		// Create and add virtual controller overlay.
+		m_virtualControllerRenderer = std::shared_ptr<SampleVirtualControllerRenderer>(new SampleVirtualControllerRenderer(m_deviceResources));
+		overlays.push_back(m_virtualControllerRenderer);
+
+		// Set up touch regions.
+		InitializeTouchRegions();
+	}
+
+	// Send the final list of overlays to the overlay manager.
+	m_overlayManager->SetOverlays(overlays);
+
+	// Note to developer: Apply input to your game.
+	// This template supports all control types by default.
+	m_inputManager->SetFilter(INPUT_DEVICE_ALL);
+	m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
+
+
 
 	// Setting render target to 30 FPS !!!!!!!!!!!!!!
 
@@ -45,6 +76,88 @@ SimpleSampleMain::SimpleSampleMain(const std::shared_ptr<DX::DeviceResources>& d
 
 	m_deviceResources->RegisterDeviceNotify(this);
 }
+
+void SimpleSampleMain::InitializeTouchRegions()
+{
+	// Here we set up the touch control regions.
+	Windows::Foundation::Size logicalSize = m_deviceResources->GetLogicalSize();
+	XMFLOAT2 screenTopLeft = XMFLOAT2(0, 0);
+	XMFLOAT2 screenTopRight = XMFLOAT2(logicalSize.Width, 0);
+	XMFLOAT2 screenBottomLeft = XMFLOAT2(0, logicalSize.Height);
+	XMFLOAT2 screenBottomRight = XMFLOAT2(logicalSize.Width, logicalSize.Height);
+	float width = screenTopRight.x - screenTopLeft.x;
+	float height = screenBottomLeft.y - screenTopLeft.y;
+
+	// Clear previous touch regions.
+	m_virtualControllerRenderer->ClearTouchControlRegions();
+	m_inputManager->ClearTouchRegions();
+
+	// The following scoped code region sets up the analog stick.
+	{
+		const float stickRegionPercent = 0.75f;
+		float stickRegionWidth = (width * stickRegionPercent);
+		XMFLOAT2 touchRegionBoundary = XMFLOAT2(screenTopLeft.x + stickRegionWidth, screenBottomRight.y);
+
+		TouchControlRegion touchControlRegionStick(
+			screenTopLeft,
+			touchRegionBoundary,
+			TOUCH_CONTROL_REGION_ANALOG_STICK,
+			PLAYER_ACTION_TYPES::INPUT_MOVE,
+			PLAYER_ID::PLAYER_ID_ONE
+			);
+
+		DWORD errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionStick, m_touchRegionIDs[0]);
+
+		if (!errorCode)
+		{
+			m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionStick);
+		}
+	}
+
+	// The following scoped code region sets up the buttons.
+	{
+		const float buttonRegionPercent = 0.2f;
+		const float buttonWidthHeight = 80.f;
+		const float buttonDesiredOffset = 300.f;
+
+		// Control the max location to prevent overlap
+		float buttonWidthOffset = (width * buttonRegionPercent) - buttonWidthHeight;
+		buttonWidthOffset = buttonWidthOffset < buttonDesiredOffset ? buttonWidthOffset : buttonDesiredOffset;
+
+		// Set up button A
+		XMFLOAT2 location1 = { width - (buttonWidthOffset + 1.f * buttonWidthHeight), height - buttonDesiredOffset };
+		TouchControlRegion touchControlRegionButtonA(
+			XMFLOAT2(location1.x, location1.y),
+			XMFLOAT2(location1.x + buttonWidthHeight, location1.y + buttonWidthHeight),
+			TOUCH_CONTROL_REGION_TYPES::TOUCH_CONTROL_REGION_BUTTON,
+			PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN,
+			PLAYER_ID::PLAYER_ID_ONE
+			);
+
+		DWORD errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionButtonA, m_touchRegionIDs[1]);
+		if (!errorCode)
+		{
+			m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionButtonA);
+		}
+
+		// Set up button B
+		XMFLOAT2 location2 = { width - buttonWidthOffset, height - buttonDesiredOffset - (1.f * buttonWidthHeight) };
+		TouchControlRegion touchControlRegionButtonB(
+			XMFLOAT2(location2.x, location2.y),
+			XMFLOAT2(location2.x + buttonWidthHeight, location2.y + buttonWidthHeight),
+			TOUCH_CONTROL_REGION_TYPES::TOUCH_CONTROL_REGION_BUTTON,
+			PLAYER_ACTION_TYPES::INPUT_JUMP_DOWN,
+			PLAYER_ID::PLAYER_ID_ONE
+			);
+
+		errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionButtonB, m_touchRegionIDs[2]);
+		if (!errorCode)
+		{
+			m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionButtonB);
+		}
+	}
+}
+
 
 SimpleSampleMain::~SimpleSampleMain()
 {
@@ -56,6 +169,20 @@ SimpleSampleMain::~SimpleSampleMain()
 void SimpleSampleMain::CreateWindowSizeDependentResources() 
 {
 	m_sceneRenderer->CreateWindowSizeDependentResources();
+
+	//Adding Input and Overlay handling - initialization
+
+	// Input events are dependent on having the correct CoreWindow.
+	m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
+
+	// Only update the virtual controller if it's present.
+	if (m_virtualControllerRenderer != nullptr)
+	{
+		// Touch regions are dependent on window size and shape.
+		InitializeTouchRegions();
+	}
+
+
 }
 
 // Updates the application state once per frame.
@@ -65,8 +192,53 @@ void SimpleSampleMain::Update()
 	m_timer.Tick([&]()
 	{
 		m_sceneRenderer->Update(m_timer);
+
+		m_overlayManager->Update(m_timer);
+		m_inputManager->Update(m_timer);
+
+		std::vector<PlayerInputData> playerActions;
+		ProcessInput(&playerActions);
+
+		m_debugTextRenderer->Update(&playerActions, m_playersConnected);
+
+		// Only update the virtual controller if it's present.
+		if (m_virtualControllerRenderer != nullptr)
+		{
+			m_virtualControllerRenderer->Update(&playerActions);
+		}
+
 	});
 }
+
+void SimpleSampleMain::ProcessInput(std::vector<PlayerInputData>* playerActions)
+{
+	m_playersConnected = m_inputManager->GetPlayersConnected();
+
+	*playerActions = m_inputManager->GetPlayersActions();
+
+	for (unsigned int j = 0; j < playerActions->size(); j++)
+	{
+		PlayerInputData playerAction = (*playerActions)[j];
+
+		if (playerAction.ID == 0)
+
+			switch (playerAction.PlayerAction)
+		{
+			case PLAYER_ACTION_TYPES::INPUT_FIRE_PRESSED:
+				//TODO: something
+				break;
+
+			case PLAYER_ACTION_TYPES::INPUT_START:
+				//TODO: something
+				break;
+
+			default:
+				break;
+		}
+	}
+
+}
+
 
 //// This is the main Render function, all other objects go here
 //// Remember to use <vector> for all elements that need rendering - better memory access pattern
@@ -96,6 +268,7 @@ bool SimpleSampleMain::Render()
 
 	// Render the scene objects.
 	m_sceneRenderer->Render();
+	m_overlayManager->Render();
 
 	return true;
 }

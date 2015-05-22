@@ -53,14 +53,26 @@ namespace SimpleSample
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
-		//TODO:: Finish adding proper stuff here !!!
-
-
-
-
 		std::unique_ptr<DirectXTK3DSceneRenderer> m_sceneRenderer;
+
+		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
+		std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;
+
+		// Input, overlay managers
+		std::unique_ptr<InputManager>      m_inputManager;
+		std::shared_ptr<OverlayManager>    m_overlayManager;
 
 		// Rendering loop timer.
 		DX::StepTimer m_timer;
+
+		// Tracks which players are connected (0...3).
+		unsigned int m_playersConnected;
+
+		// Tracks the touch region ID, allowing you to enable/disable touch regions.
+		// Note to developer: Expand this array if you add more touch regions, e.g. for a menu.
+		unsigned int m_touchRegionIDs[3];
+
+
+
 	};
 }
