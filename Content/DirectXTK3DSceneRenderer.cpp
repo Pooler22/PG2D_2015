@@ -107,35 +107,37 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
         m_retryDefault = true;
     }
 
-#pragma region Gamepad
-	//GamePad
-	auto statePlayerOne = gamePad->GetState(0);
-	if (statePlayerOne.IsConnected())
-	{
-		XMFLOAT2 tempPos = player->getPosition();
-		if (statePlayerOne.IsDPadUpPressed()){
-			tempPos.y -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
-		}
+	//startButtonString = L"Start";
 
-		if (statePlayerOne.IsDPadDownPressed()){
-			tempPos.y += 10; ////CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
-		}
-		
-		if (statePlayerOne.IsDPadLeftPressed()){
-			tempPos.x -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
-		}
-		if (statePlayerOne.IsDPadRightPressed()){
-			tempPos.x += 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 	
-		}
-		player->setPosition(tempPos);
-	}
-#pragma endregion Handling the Gamepad Input
+//#pragma region Gamepad
+//	//GamePad
+//	auto statePlayerOne = gamePad->GetState(0);
+//	if (statePlayerOne.IsConnected())
+//	{
+//		XMFLOAT2 tempPos = player->getPosition();
+//		if (statePlayerOne.IsDPadUpPressed()){
+//			tempPos.y -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
+//		}
+//
+//		if (statePlayerOne.IsDPadDownPressed()){
+//			tempPos.y += 10; ////CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
+//		}
+//		
+//		if (statePlayerOne.IsDPadLeftPressed()){
+//			tempPos.x -= 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 
+//		}
+//		if (statePlayerOne.IsDPadRightPressed()){
+//			tempPos.x += 10; //CHANGE TO PROPER OFFSET CALCULATION - USING TIME 	
+//		}
+//		player->setPosition(tempPos);	
+//	}
+//#pragma endregion Handling the Gamepad Input
 
 #pragma region Paralaxing background
 	//Update Background
-	background->Update((float)timer.GetElapsedSeconds() * 100);
-	clouds->Update((float)timer.GetElapsedSeconds() * 300);
-	clouds2->Update((float)timer.GetElapsedSeconds() * 900);
+	//background->Update((float)timer.GetElapsedSeconds() * 100);
+	//clouds->Update((float)timer.GetElapsedSeconds() * 300);
+	//clouds2->Update((float)timer.GetElapsedSeconds() * 900);
 #pragma endregion Handling the paralaxing backgrounds
 	
 	//auto test = timer.GetElapsedSeconds();
@@ -143,31 +145,32 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 	//update the animation
 	//animation->Update((float)timer.GetElapsedSeconds());
-	player->Update((float)timer.GetElapsedSeconds());
+	//player->Update((float)timer.GetElapsedSeconds());
+
 
 #pragma region Enemy AI
 	// TODO: handle enemy AI using promises and Lambdas
 	std::vector<std::future<DirectX::XMFLOAT2>> futures;
 	
-	for (auto enemy : enemiesVector)
-	{
-		futures.push_back( std::async(std::launch::async,
-			[]()
-		{
-			DirectX::XMFLOAT2 tempPos;
-			//TODO: Write code for very complicated AI here
-			
-			
-			return tempPos;
+	//for (auto enemy : enemiesVector)
+	//{
+	//	futures.push_back( std::async(std::launch::async,
+	//		[]()
+	//	{
+	//		DirectX::XMFLOAT2 tempPos;
+	//		//TODO: Write code for very complicated AI here
+	//		
+	//		
+	//		return tempPos;
 
-		}) );
-	}
+	//	}) );
+	//}
 
 	for (auto &future : futures)
 	{
 		//TODO:get results
 		
-		auto enemiesIterator = enemiesVector.begin();
+		//auto enemiesIterator = enemiesVector.begin();
 		
 		DirectX::XMFLOAT2 tempPos;
 		tempPos = future.get();
@@ -178,9 +181,9 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 #pragma endregion Handling Enemy AI using std::async and std::Future. Also using C++11 Lambdas
 
 #pragma region Collisions
-	collisionString = L"There is no collision";
-	gamePad->SetVibration(0, 0.f, 0.f);
-	for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
+	//collisionString = L"There is no collision";
+	//gamePad->SetVibration(0, 0.f, 0.f);
+	/*for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
 	{
 
 		(*wallsIterator).Update((float)timer.GetElapsedSeconds());
@@ -189,6 +192,12 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 			gamePad->SetVibration(0, 0.75f, 0.75f);
 		}
+	}*/
+
+
+	for (auto wallsIterator = buttons.begin(); wallsIterator < buttons.end(); wallsIterator++)
+	{
+		(*wallsIterator)->Update((float)timer.GetElapsedSeconds());
 	}
 #pragma endregion Handling collision detection + simple GamePad rumble on crash
 
@@ -273,23 +282,29 @@ void DirectXTK3DSceneRenderer::Render()
 	// Draw sprites
 	m_sprites->Begin();
 
-	background->Draw(m_sprites.get());
-	clouds->Draw(m_sprites.get());
+	//background->Draw(m_sprites.get());
+	//clouds->Draw(m_sprites.get());
 
 	//Drawing walls
 
-	for (auto wall : wallsVector)
+	/*for (auto wall : wallsVector)
 	{
 		wall.Draw(m_sprites.get());
+	}*/
+
+	for (auto &wall : buttons)
+	{
+		wall->Draw(m_sprites.get());
 	}
 
 	//wall->Draw(m_sprites.get());
 	//wall2->Draw(m_sprites.get());
-	player->Draw(m_sprites.get());
+	//player->Draw(m_sprites.get());
+	//m_font->DrawString(m_sprites.get(), startButtonString.c_str(), XMFLOAT2(300, 200), Colors::Black);
+	//clouds2->Draw(m_sprites.get());
 
-	clouds2->Draw(m_sprites.get());
-
-	m_font->DrawString(m_sprites.get(), collisionString.c_str(), XMFLOAT2(100, 10), Colors::Yellow);
+	//m_font->DrawString(m_sprites.get(), collisionString.c_str(), XMFLOAT2(100, 10), Colors::Yellow);
+	
 	m_sprites->End();
 
 
@@ -317,16 +332,16 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\shipanimated.dds", nullptr, m_texture.ReleaseAndGetAddressOf())
 		);
-	player.reset(new Player(m_texture.Get()));
+	//player.reset(new Player(m_texture.Get()));
 
-	DX::ThrowIfFailed(
+	/*DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\background.dds", nullptr, backgroundTexture.ReleaseAndGetAddressOf())
 		);
 	background.reset(new ScrollingBackground);
-	background->Load(backgroundTexture.Get());
+	background->Load(backgroundTexture.Get());*/
 
 
-	DX::ThrowIfFailed(
+	/*DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\clouds.dds", nullptr, cloudsTexture.ReleaseAndGetAddressOf())
 		);
 	clouds.reset(new ScrollingBackground);
@@ -336,32 +351,39 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 		CreateDDSTextureFromFile(device, L"assets\\clouds2.dds", nullptr, cloudsTexture2.ReleaseAndGetAddressOf())
 		);
 	clouds2.reset(new ScrollingBackground);
-	clouds2->Load(cloudsTexture2.Get());
+	clouds2->Load(cloudsTexture2.Get());*/
 
-	DX::ThrowIfFailed(
+	/*DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
-		);
+		);*/
 	//TODO: Instatiate enemies here
-	Enemy enemyTemp(enemyTexture.Get());
+	/*Enemy enemyTemp(enemyTexture.Get());
 	enemiesVector.push_back(enemyTemp);
 
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\pipe.dds", nullptr, pipeTexture.ReleaseAndGetAddressOf())
-		);
+		);*/
 	
 	//Adding walls to vector
 	//wallsVector.push_back(Wall(logicalSize, XMFLOAT2(300, 0), pipeTexture.Get()));
-	wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(logicalSize.Width, 0), pipeTexture.Get()));
+	//wallsVector.emplace_back(Wall(logicalSize, XMFLOAT2(logicalSize.Width, 0), pipeTexture.Get()));
 	
+	/*DX::ThrowIfFailed(
+		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
+		);*/
 
+
+	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(400, 200))));
+	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));
+	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(400, 400))));
 	//set windows size for drawing the background
-	background->SetWindow(logicalSize.Width, logicalSize.Height);
-	clouds->SetWindow(logicalSize.Width, logicalSize.Height);
-	clouds2->SetWindow(logicalSize.Width, logicalSize.Height);
+	//background->SetWindow(logicalSize.Width, logicalSize.Height);
+	//clouds->SetWindow(logicalSize.Width, logicalSize.Height);
+	//clouds2->SetWindow(logicalSize.Width, logicalSize.Height);
 
 
 	//Gamepad
-	gamePad.reset(new GamePad);
+	//gamePad.reset(new GamePad);
 
 }
 
@@ -371,9 +393,9 @@ void DirectXTK3DSceneRenderer::ReleaseDeviceDependentResources()
     m_sprites.reset();
     m_font.reset();
     m_texture.Reset();
-	backgroundTexture.Reset();
-	cloudsTexture.Reset();
-	cloudsTexture2.Reset();
+	//backgroundTexture.Reset();
+	//cloudsTexture.Reset();
+	//cloudsTexture2.Reset();
 	pipeTexture.Reset();
 	enemyTexture.Reset();
 }

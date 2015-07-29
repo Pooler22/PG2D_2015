@@ -188,7 +188,7 @@
     <Image Include="Assets\pipe.png" />
     <Image Include="Assets\seafloor.dds" />
     <Image Include="Assets\shipanimated — kopia (2).dds" />
-    <Image Include="Assets\shipanimated — kopia.dds" />
+    <Image Include="Assets\shipanimated1.dds" />
     <Image Include="Assets\shipanimated.dds" />
     <Image Include="Assets\SmallLogo.dds" />
     <Image Include="Assets\SmallLogo.png" />
@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Common\DeviceResources.h" />
     <ClInclude Include="Common\InputManager.h" />
     <ClInclude Include="Common\OverlayManager.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
     <ClInclude Include="Content\ScrollingBackground.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SimpleSampleMain.h" />
     <ClInclude Include="Common\DirectXHelper.h" />

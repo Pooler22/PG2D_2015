@@ -35,6 +35,8 @@
 #include "Wall.h"
 #include "Enemy.h"
 #include "GamePad.h"
+#include "Button.h"
+#include "Menu.h"
 
 #include "DirectXTK\Inc\SimpleMath.h"
 
@@ -82,19 +84,21 @@ namespace SimpleSample
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>                        pipeTexture;
 		
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						backgroundTexture;
-		std::unique_ptr<ScrollingBackground>									background;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						cloudsTexture;
-		std::unique_ptr<ScrollingBackground>									clouds;
+		//std::unique_ptr<ScrollingBackground>									background;
+		//Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						cloudsTexture;
+		//std::unique_ptr<ScrollingBackground>									clouds;
 
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						cloudsTexture2;
-		std::unique_ptr<ScrollingBackground>									clouds2;
-		std::unique_ptr<Player>													player;
-		
-		std::unique_ptr<GamePad>												gamePad;
-		std::vector<Wall>														wallsVector;
-		std::vector<Enemy>														enemiesVector;
+		//Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						cloudsTexture2;
+		//std::unique_ptr<ScrollingBackground>									clouds2;
+		//std::unique_ptr<Player>												player;
+		std::vector<std::unique_ptr<Button>>									buttons;
+		//std::wstring															startButtonString;
 
-		std::wstring															collisionString;
+		//std::unique_ptr<GamePad>												gamePad;
+		//std::vector<Wall>														wallsVector;
+		//std::vector<Enemy>													enemiesVector;
+
+		//std::wstring															collisionString;
 
 		// Variables used with the rendering loop.
         uint32_t                                                                m_audioEvent;
