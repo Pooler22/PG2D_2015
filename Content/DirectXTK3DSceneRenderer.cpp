@@ -203,6 +203,89 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 }
 
+// Updates the scene to be displayed.
+void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs, unsigned int playersAttached)
+{
+	m_playersAttached = playersAttached;
+
+	for (unsigned int i = 0; i < XINPUT_MAX_CONTROLLERS; i++)
+	{
+		std::wstring inputText = L"";
+
+		unsigned int playerAttached = (playersAttached & (1 << i));
+
+		if (!playerAttached)
+			continue;
+
+		for (unsigned int j = 0; j < playerInputs->size(); j++)
+		{
+			PlayerInputData playerAction = (*playerInputs)[j];
+
+			if (playerAction.ID != i) continue;
+
+			switch (playerAction.PlayerAction)
+			{
+			case PLAYER_ACTION_TYPES::INPUT_FIRE_PRESSED:
+				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN:
+				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
+				inputText += L"\n FireReleased(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+
+			case PLAYER_ACTION_TYPES::INPUT_JUMP_PRESSED:
+				inputText += L"\n JumpPressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_JUMP_DOWN:
+				inputText += L"\n JumpDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_JUMP_RELEASED:
+				inputText += L"\n JumpReleased(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+
+			case PLAYER_ACTION_TYPES::INPUT_MOVE:
+				inputText += L"\n MoveX(" + std::to_wstring(playerAction.X) + L") ";
+				inputText += L"\n MoveY(" + std::to_wstring(playerAction.Y) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_AIM:
+				inputText += L"\n AimX(" + std::to_wstring(playerAction.X) + L") ";
+				inputText += L"\n AimY(" + std::to_wstring(playerAction.Y) + L") ";
+				break;
+			case PLAYER_ACTION_TYPES::INPUT_BRAKE:
+				inputText += L"\n Brake(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		wchar_t intStringBuffer[8];
+		size_t sizeInWords = sizeof(intStringBuffer) / 2;
+		_itow_s(i + 1, intStringBuffer, sizeInWords, 10);
+		std::wstring playerIdString(intStringBuffer);
+
+		//m_text[i] = L"Input Player" + playerIdString += L": " + inputText;
+
+		/*DX::ThrowIfFailed(
+			m_deviceResources->GetDWriteFactory()->CreateTextLayout(
+				m_text[i].c_str(),
+				(uint32)m_text[i].length(),
+				m_textFormat.Get(),
+				DEBUG_INPUT_TEXT_MAX_WIDTH,
+				DEBUG_INPUT_TEXT_MAX_HEIGHT,
+				&m_textLayout[i]
+				)
+			);
+
+		DX::ThrowIfFailed(
+			m_textLayout[i]->GetMetrics(&m_textMetrics[i])
+			);*/
+	}
+}
+
 void DirectXTK3DSceneRenderer::NewAudioDevice()
 {
     if (m_audEngine && !m_audEngine->IsAudioDevicePresent())

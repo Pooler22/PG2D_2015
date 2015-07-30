@@ -92,9 +92,6 @@
     <ClInclude Include="Button.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Content</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

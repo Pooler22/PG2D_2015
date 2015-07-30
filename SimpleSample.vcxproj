@@ -209,7 +209,6 @@
     <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
     <ClInclude Include="Content\ScrollingBackground.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SimpleSampleMain.h" />
     <ClInclude Include="Common\DirectXHelper.h" />

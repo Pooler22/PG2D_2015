@@ -200,7 +200,7 @@ void SimpleSampleMain::Update()
 		ProcessInput(&playerActions);
 
 		m_debugTextRenderer->Update(&playerActions, m_playersConnected);
-
+		m_sceneRenderer->Update(&playerActions, m_playersConnected);
 		// Only update the virtual controller if it's present.
 		if (m_virtualControllerRenderer != nullptr)
 		{

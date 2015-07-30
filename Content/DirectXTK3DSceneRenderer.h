@@ -36,7 +36,10 @@
 #include "Enemy.h"
 #include "GamePad.h"
 #include "Button.h"
-#include "Menu.h"
+#include "Common/DeviceResources.h"
+#include "Common/StepTimer.h"
+#include "Common/InputManager.h"
+#include "Common/OverlayManager.h"
 
 #include "DirectXTK\Inc\SimpleMath.h"
 
@@ -52,12 +55,17 @@ namespace SimpleSample
         void CreateAudioResources();
 		void ReleaseDeviceDependentResources();
 		void Update(DX::StepTimer const& timer);
+		void Update(std::vector<PlayerInputData>* playerInput, unsigned int playersAttached);
 		void Render();
 
         // Signals a new audio device is available
         void NewAudioDevice();
 
 	private:
+
+		// Cached player metadata.
+		unsigned int m_playersAttached;
+
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
