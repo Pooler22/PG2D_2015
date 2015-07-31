@@ -138,6 +138,7 @@ void SampleDebugTextRenderer::Update(std::vector<PlayerInputData>* playerInputs,
             case PLAYER_ACTION_TYPES::INPUT_MOVE:
 				inputText += L"\n MoveX(" + std::to_wstring(playerAction.X) + L") ";
 				inputText += L"\n MoveY(" + std::to_wstring(playerAction.Y) + L") ";
+				inputText += L"\n Y(" + std::to_wstring(playerAction.PointerThrowX) + L") ";
                 break;
             case PLAYER_ACTION_TYPES::INPUT_AIM:
 				inputText += L"\n AimX(" + std::to_wstring(playerAction.X) + L") ";

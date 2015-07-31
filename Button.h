@@ -1,12 +1,12 @@
 #pragma once
 
 #include <wrl.h>
-//#include "..\Common\DirectXHelper.h"	// For ThrowIfaFailed and ReadDataAsync
 #include <Content\AnimatedTexture.h>
 #include <SpriteBatch.h>
 #include <DirectXMath.h>
 #include <DirectXTK\Inc\SimpleMath.h>
 #include "SpriteFont.h"
+//#include "..\Common\DirectXHelper.h"	// For ThrowIfaFailed and ReadDataAsync
 
 class Button
 {
@@ -19,7 +19,7 @@ public:
 		texture = playerSpriteSheet;
 		float rotation = 0.f;
 		float scale = 3.f;
-		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, scale, 0.5f));
+		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, 3, 0.5f));
 		animation->Load(texture.Get(), framesOfAnimation, framesToBeShownPerSecond);
 
 		m_font.reset(spriteFont);
@@ -27,10 +27,7 @@ public:
 		width = textureWidth = animation->getFrameWidth();
 		height = textureHeight = animation->getFrameHeight();
 
-		rectangle.X = position.x;
-		rectangle.Y = position.y;
-		rectangle.Height = height;
-		rectangle.Width = width;
+		updateBoundingRect();
 
 	}
 
@@ -48,17 +45,12 @@ public:
 		width = textureWidth = animation->getFrameWidth();
 		height = textureHeight = animation->getFrameHeight();
 
-		rectangle.X = position.x;
-		rectangle.Y = position.y;
-		rectangle.Height = height;
-		rectangle.Width = width;
-
+		updateBoundingRect();
 	}
 
 
 	void setPosition(DirectX::XMFLOAT2 newPosition)
 	{
-		//set the position
 		position = newPosition;
 		updateBoundingRect();
 	}
@@ -75,10 +67,25 @@ public:
 		return position;
 	}
 
+	DirectX::XMFLOAT2 getDimension()
+	{
+		return DirectX::XMFLOAT2(width, height);
+	}
+
+	bool isClicked(float x, float y) 
+	{
+		if (x > (rectangle.X) && y > (rectangle.Y) && x < (rectangle.X + rectangle.Width) && y < (rectangle.Y + rectangle.Height))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	void Update(float elapsed)
 	{
-
-		//update the animation of the player
 		animation->Update(elapsed);
 	}
 

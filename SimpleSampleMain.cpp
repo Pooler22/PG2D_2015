@@ -198,9 +198,9 @@ void SimpleSampleMain::Update()
 
 		std::vector<PlayerInputData> playerActions;
 		ProcessInput(&playerActions);
-
-		m_debugTextRenderer->Update(&playerActions, m_playersConnected);
 		m_sceneRenderer->Update(&playerActions, m_playersConnected);
+		m_debugTextRenderer->Update(&playerActions, m_playersConnected);
+		
 		// Only update the virtual controller if it's present.
 		if (m_virtualControllerRenderer != nullptr)
 		{

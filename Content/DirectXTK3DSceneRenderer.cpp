@@ -139,7 +139,7 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 	//clouds->Update((float)timer.GetElapsedSeconds() * 300);
 	//clouds2->Update((float)timer.GetElapsedSeconds() * 900);
 #pragma endregion Handling the paralaxing backgrounds
-	
+
 	//auto test = timer.GetElapsedSeconds();
 
 
@@ -150,55 +150,55 @@ void DirectXTK3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 #pragma region Enemy AI
 	// TODO: handle enemy AI using promises and Lambdas
-	std::vector<std::future<DirectX::XMFLOAT2>> futures;
-	
-	//for (auto enemy : enemiesVector)
-	//{
-	//	futures.push_back( std::async(std::launch::async,
-	//		[]()
-	//	{
-	//		DirectX::XMFLOAT2 tempPos;
-	//		//TODO: Write code for very complicated AI here
-	//		
-	//		
-	//		return tempPos;
+std::vector<std::future<DirectX::XMFLOAT2>> futures;
 
-	//	}) );
-	//}
+//for (auto enemy : enemiesVector)
+//{
+//	futures.push_back( std::async(std::launch::async,
+//		[]()
+//	{
+//		DirectX::XMFLOAT2 tempPos;
+//		//TODO: Write code for very complicated AI here
+//		
+//		
+//		return tempPos;
 
-	for (auto &future : futures)
-	{
-		//TODO:get results
-		
-		//auto enemiesIterator = enemiesVector.begin();
-		
-		DirectX::XMFLOAT2 tempPos;
-		tempPos = future.get();
-		//(*enemiesIterator).setPosition(tempPos);
-		//enemiesIterator++;
-	}
+//	}) );
+//}
+
+for (auto &future : futures)
+{
+	//TODO:get results
+
+	//auto enemiesIterator = enemiesVector.begin();
+
+	DirectX::XMFLOAT2 tempPos;
+	tempPos = future.get();
+	//(*enemiesIterator).setPosition(tempPos);
+	//enemiesIterator++;
+}
 
 #pragma endregion Handling Enemy AI using std::async and std::Future. Also using C++11 Lambdas
 
 #pragma region Collisions
-	//collisionString = L"There is no collision";
-	//gamePad->SetVibration(0, 0.f, 0.f);
-	/*for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
-	{
+//collisionString = L"There is no collision";
+//gamePad->SetVibration(0, 0.f, 0.f);
+/*for (auto wallsIterator = wallsVector.begin(); wallsIterator < wallsVector.end(); wallsIterator++)
+{
 
-		(*wallsIterator).Update((float)timer.GetElapsedSeconds());
-		if ((*wallsIterator).isCollidingWith(player->rectangle)){
-			collisionString = L"There is a collision with the wall";
+	(*wallsIterator).Update((float)timer.GetElapsedSeconds());
+	if ((*wallsIterator).isCollidingWith(player->rectangle)){
+		collisionString = L"There is a collision with the wall";
 
-			gamePad->SetVibration(0, 0.75f, 0.75f);
-		}
-	}*/
-
-
-	for (auto wallsIterator = buttons.begin(); wallsIterator < buttons.end(); wallsIterator++)
-	{
-		(*wallsIterator)->Update((float)timer.GetElapsedSeconds());
+		gamePad->SetVibration(0, 0.75f, 0.75f);
 	}
+}*/
+
+
+for (auto wallsIterator = buttons.begin(); wallsIterator < buttons.end(); wallsIterator++)
+{
+	(*wallsIterator)->Update((float)timer.GetElapsedSeconds());
+}
 #pragma endregion Handling collision detection + simple GamePad rumble on crash
 
 }
@@ -222,16 +222,25 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 			PlayerInputData playerAction = (*playerInputs)[j];
 
 			if (playerAction.ID != i) continue;
-
 			switch (playerAction.PlayerAction)
 			{
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_PRESSED:
-				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN:
 				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
+				if (buttons[0]->isClicked(playerAction.PointerRawX, playerAction.PointerRawY))
+				{
+					buttons[0]->setString(std::to_wstring(playerAction.X) + L" " + std::to_wstring(playerAction.Y) + L"\n" +
+						std::to_wstring(buttons[0]->getPosition().x) + L" " + std::to_wstring(buttons[0]->getPosition().y) + L"\n" +
+						std::to_wstring(buttons[0]->rectangle.Width) + L" " + std::to_wstring(buttons[0]->rectangle.Height));
+				}
+				else {
+					buttons[0]->setString(L"Start");
+				}
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
+				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
 				inputText += L"\n FireReleased(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
 				break;
 
@@ -246,11 +255,11 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				break;
 
 			case PLAYER_ACTION_TYPES::INPUT_MOVE:
-				inputText += L"\n MoveX(" + std::to_wstring(playerAction.X) + L") ";
+				inputText += L"\n MoveX(" + std::to_wstring(playerAction.PointerThrowX) + L") ";
 				inputText += L"\n MoveY(" + std::to_wstring(playerAction.Y) + L") ";
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_AIM:
-				inputText += L"\n AimX(" + std::to_wstring(playerAction.X) + L") ";
+				inputText += L"\n AimX(" + std::to_wstring(playerAction.PointerThrowX) + L") ";
 				inputText += L"\n AimY(" + std::to_wstring(playerAction.Y) + L") ";
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_BRAKE:
@@ -260,6 +269,7 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 			default:
 				break;
 			}
+			
 		}
 
 		wchar_t intStringBuffer[8];
@@ -375,9 +385,9 @@ void DirectXTK3DSceneRenderer::Render()
 		wall.Draw(m_sprites.get());
 	}*/
 
-	for (auto &wall : buttons)
+	for (auto &button : buttons)
 	{
-		wall->Draw(m_sprites.get());
+		button->Draw(m_sprites.get());
 	}
 
 	//wall->Draw(m_sprites.get());
@@ -456,9 +466,10 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 		);*/
 
 
-	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(400, 200))));
-	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));
-	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(400, 400))));
+	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
+	buttons[0]->setPosition(600, 600);
+	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));
+	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(400, 400))));
 	//set windows size for drawing the background
 	//background->SetWindow(logicalSize.Width, logicalSize.Height);
 	//clouds->SetWindow(logicalSize.Width, logicalSize.Height);

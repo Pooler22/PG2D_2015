@@ -19,6 +19,8 @@ namespace SimpleSample
     class SampleDebugTextRenderer : public Overlay
     {
     public:
+		std::wstring	str;
+
         SampleDebugTextRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources);
         void CreateDeviceDependentResources();
         void ReleaseDeviceDependentResources();

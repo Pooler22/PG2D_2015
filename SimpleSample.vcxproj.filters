@@ -92,6 +92,7 @@
     <ClInclude Include="Button.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="ToDo.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
