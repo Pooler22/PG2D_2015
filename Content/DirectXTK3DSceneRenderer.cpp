@@ -194,11 +194,8 @@ for (auto &future : futures)
 	}
 }*/
 
-
-for (auto wallsIterator = buttons.begin(); wallsIterator < buttons.end(); wallsIterator++)
-{
-	(*wallsIterator)->Update((float)timer.GetElapsedSeconds());
-}
+	screen->Update((float)timer.GetElapsedSeconds());
+		
 #pragma endregion Handling collision detection + simple GamePad rumble on crash
 
 }
@@ -229,15 +226,8 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN:
 				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
-				if (buttons[0]->isClicked(playerAction.PointerRawX, playerAction.PointerRawY))
-				{
-					buttons[0]->setString(std::to_wstring(playerAction.X) + L" " + std::to_wstring(playerAction.Y) + L"\n" +
-						std::to_wstring(buttons[0]->getPosition().x) + L" " + std::to_wstring(buttons[0]->getPosition().y) + L"\n" +
-						std::to_wstring(buttons[0]->rectangle.Width) + L" " + std::to_wstring(buttons[0]->rectangle.Height));
-				}
-				else {
-					buttons[0]->setString(L"Start");
-				}
+				screen->isClicked(playerAction.PointerRawX, playerAction.PointerRawY)
+				
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
 				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
@@ -385,10 +375,7 @@ void DirectXTK3DSceneRenderer::Render()
 		wall.Draw(m_sprites.get());
 	}*/
 
-	for (auto &button : buttons)
-	{
-		button->Draw(m_sprites.get());
-	}
+	screen->Draw(m_sprites.get());
 
 	//wall->Draw(m_sprites.get());
 	//wall2->Draw(m_sprites.get());
@@ -464,10 +451,8 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	/*DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
 		);*/
-
-
-	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
-	buttons[0]->setPosition(600, 600);
+	screen = new Screen();
+	screen->addButton(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(400, 400))));
 	//set windows size for drawing the background
@@ -475,10 +460,8 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	//clouds->SetWindow(logicalSize.Width, logicalSize.Height);
 	//clouds2->SetWindow(logicalSize.Width, logicalSize.Height);
 
-
 	//Gamepad
 	//gamePad.reset(new GamePad);
-
 }
 
 void DirectXTK3DSceneRenderer::ReleaseDeviceDependentResources()
