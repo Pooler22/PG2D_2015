@@ -287,6 +287,8 @@
     <ClInclude Include="Content\ScrollingBackground.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SimpleSampleMain.h" />
     <ClInclude Include="Common\DirectXHelper.h" />
     <ClInclude Include="Common\StepTimer.h" />
@@ -352,7 +354,6 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='New|x64'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </None>
-    <None Include="SimpleSample_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav" />

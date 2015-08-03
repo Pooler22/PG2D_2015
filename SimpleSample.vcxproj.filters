@@ -93,12 +93,17 @@
       <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="ToDo.h" />
+    <ClInclude Include="Screen.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleSample_TemporaryKey.pfx" />
     <None Include="Assets\italic.spritefont">
       <Filter>Assets</Filter>
     </None>

@@ -36,13 +36,14 @@
 #include "Enemy.h"
 #include "GamePad.h"
 #include "Button.h"
-//#include "Screen.h"
+#include "Screen.h"
 #include "Common/DeviceResources.h"
 #include "Common/StepTimer.h"
 #include "Common/InputManager.h"
 #include "Common/OverlayManager.h"
 
 #include "DirectXTK\Inc\SimpleMath.h"
+#include "ScreenManager.h"
 
 namespace SimpleSample
 {
@@ -100,7 +101,7 @@ namespace SimpleSample
 		//Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>						cloudsTexture2;
 		//std::unique_ptr<ScrollingBackground>									clouds2;
 		//std::unique_ptr<Player>												player;
-		std::vector<std::unique_ptr<Button>>									buttons;
+		//std::vector<std::unique_ptr<Button>>									buttons;
 		//std::wstring															startButtonString;
 
 		//std::unique_ptr<GamePad>												gamePad;
@@ -116,6 +117,8 @@ namespace SimpleSample
         bool                                                                    m_retryDefault;
 		
 		//std::unique_ptr<Screen>													screen;
+		std::unique_ptr<ScreenManager>											screenManager;
+		
 	};
 }
 
