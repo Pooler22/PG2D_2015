@@ -194,8 +194,9 @@ for (auto &future : futures)
 	}
 }*/
 
-	screen->Update((float)timer.GetElapsedSeconds());
-		
+	//screen->Update((float)timer.GetElapsedSeconds());
+	buttons[0]->Update((float)timer.GetElapsedSeconds());
+
 #pragma endregion Handling collision detection + simple GamePad rumble on crash
 
 }
@@ -226,7 +227,7 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN:
 				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
-				screen->isClicked(playerAction.PointerRawX, playerAction.PointerRawY)
+				//screen->isClicked(playerAction.PointerRawX, playerAction.PointerRawY);
 				
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
@@ -375,7 +376,8 @@ void DirectXTK3DSceneRenderer::Render()
 		wall.Draw(m_sprites.get());
 	}*/
 
-	screen->Draw(m_sprites.get());
+	//screen->Draw(m_sprites.get());
+	buttons[0]->Draw(m_sprites.get());
 
 	//wall->Draw(m_sprites.get());
 	//wall2->Draw(m_sprites.get());
@@ -451,8 +453,9 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	/*DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"assets\\enemyanimated.dds", nullptr, enemyTexture.ReleaseAndGetAddressOf())
 		);*/
-	screen = new Screen();
-	screen->addButton(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
+	//screen = new Screen();
+	buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
+	//screen->addButton(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(400, 400))));
 	//set windows size for drawing the background

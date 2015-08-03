@@ -36,7 +36,7 @@
 #include "Enemy.h"
 #include "GamePad.h"
 #include "Button.h"
-#include "Screen.h"
+//#include "Screen.h"
 #include "Common/DeviceResources.h"
 #include "Common/StepTimer.h"
 #include "Common/InputManager.h"
@@ -115,7 +115,7 @@ namespace SimpleSample
 
         bool                                                                    m_retryDefault;
 		
-		std::unique_ptr<Screen>													screen;
+		//std::unique_ptr<Screen>													screen;
 	};
 }
 
