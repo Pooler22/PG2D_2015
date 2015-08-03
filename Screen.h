@@ -55,11 +55,8 @@ public:
 			{
 				return button->getString();
 			}
-			else
-			{
-				return L"false";
-			}
 		}
+		return L"false";
 	}
 
 private:

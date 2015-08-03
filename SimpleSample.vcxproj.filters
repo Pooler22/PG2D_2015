@@ -16,15 +16,6 @@
     <ClInclude Include="Common\StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <Image Include="Assets\Logo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SmallLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\StoreLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Assets\SplashScreen.png">
       <Filter>Assets</Filter>
     </Image>
@@ -113,6 +104,7 @@
     <None Include="Assets\ADPCMdroid.xwb">
       <Filter>Assets</Filter>
     </None>
+    <None Include="SimpleSample_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\seafloor.dds">
@@ -160,6 +152,10 @@
     <Image Include="Assets\shipanimated1.dds">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\Logo.scale-100.png" />
+    <Image Include="Assets\StoreLogo.scale-100.png" />
+    <Image Include="Assets\Square44x44Logo.scale-150.png" />
+    <Image Include="Assets\SmallLogo.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">

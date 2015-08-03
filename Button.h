@@ -39,7 +39,7 @@ public:
 		float scale = 3.f;
 		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, scale, 0.5f));
 		animation->Load(texture.Get(), framesOfAnimation, framesToBeShownPerSecond);
-
+		color = Colors::Black;
 		m_font.reset(spriteFont);
 
 		width = textureWidth = animation->getFrameWidth();
@@ -76,10 +76,12 @@ public:
 	{
 		if (x > (rectangle.X) && y > (rectangle.Y) && x < (rectangle.X + rectangle.Width) && y < (rectangle.Y + rectangle.Height))
 		{
+			color = Colors::Blue;
 			return true;
 		}
 		else
 		{
+			color = Colors::Black;
 			return false;
 		}
 	}
@@ -98,6 +100,7 @@ public:
 	void setString(std::wstring in)
 	{
 		string = in;
+		
 	}
 
 	std::wstring getString()
@@ -137,5 +140,8 @@ private:
 	std::unique_ptr<AnimatedTexture>					animation;
 	std::wstring										string;
 	std::unique_ptr<DirectX::SpriteFont>				m_font;
-
+	DirectX::XMVECTOR									color;
+	//Texture and animation
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	pressTexture;
+	std::unique_ptr<AnimatedTexture>					presAnimation;
 };
