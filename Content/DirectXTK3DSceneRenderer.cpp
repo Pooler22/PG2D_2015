@@ -220,7 +220,7 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 		{
 			PlayerInputData playerAction = (*playerInputs)[j];
 
-			screenManager->isClicked(playerAction.X, playerAction.Y);
+			
 
 			if (playerAction.ID != i) continue;
 			switch (playerAction.PlayerAction)
@@ -292,9 +292,9 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				break;
 
 			default:
+				screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY);
 				break;
 			}
-			
 		}
 
 		wchar_t intStringBuffer[8];

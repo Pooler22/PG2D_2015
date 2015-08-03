@@ -1,12 +1,10 @@
 #pragma once
 
-#include <wrl.h>
 #include <Content\AnimatedTexture.h>
 #include <SpriteBatch.h>
 #include <DirectXMath.h>
 #include <DirectXTK\Inc\SimpleMath.h>
 #include "SpriteFont.h"
-//#include "..\Common\DirectXHelper.h"	// For ThrowIfaFailed and ReadDataAsync
 
 class Button
 {
@@ -15,7 +13,7 @@ public:
 	{
 		string = inString;
 		position = inPosition;
-		//Instantiate animation here
+
 		texture = playerSpriteSheet;
 		float rotation = 0.f;
 		float scale = 3.f;
@@ -94,13 +92,12 @@ public:
 	void Draw(DirectX::SpriteBatch* batch)
 	{
 		animation->Draw(batch, position);
-		m_font->DrawString(batch, string.c_str(), position, Colors::Black);
+		m_font->DrawString(batch, string.c_str(), position, color);
 	}
 
 	void setString(std::wstring in)
 	{
 		string = in;
-		
 	}
 
 	std::wstring getString()
@@ -108,8 +105,20 @@ public:
 		return string;
 	}
 
-public:
-	Windows::Foundation::Rect							rectangle;
+	void setId(std::wstring in)
+	{
+		id = in;
+	}
+
+	std::wstring getId()
+	{
+		return id;
+	}
+
+	Windows::Foundation::Rect getBoundingRect()
+	{
+		return rectangle;
+	}
 
 private:
 	void updateBoundingRect()
@@ -121,27 +130,25 @@ private:
 		rectangle.Width = width;
 	}
 
-	Windows::Foundation::Rect getBoundingRect()
-	{
-		return rectangle;
-	}
-
-	DirectX::XMFLOAT2									position;
-
+public:
+	
 	int													width;
 	int													height;
 	int													textureWidth;
 	int													textureHeight;
 	int													framesOfAnimation;
 	int													framesToBeShownPerSecond;
-
-	//Texture and animation
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	texture;
-	std::unique_ptr<AnimatedTexture>					animation;
+	Windows::Foundation::Rect							rectangle;
+	DirectX::XMFLOAT2									position;
+	
 	std::wstring										string;
+	std::wstring										id;
+	
 	std::unique_ptr<DirectX::SpriteFont>				m_font;
 	DirectX::XMVECTOR									color;
-	//Texture and animation
+	
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	texture;
+	std::unique_ptr<AnimatedTexture>					animation;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	pressTexture;
 	std::unique_ptr<AnimatedTexture>					presAnimation;
 };
