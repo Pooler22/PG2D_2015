@@ -51,6 +51,18 @@ public:
 		return name;
 	}
 
+	std::wstring isClicked(float x, float y)
+	{
+		for (auto &screen : screens)
+		{
+			if (screen->getName() == name)
+			{
+				return screen->isClicked(x, y);
+			}
+		}
+		return L"false";
+	}
+
 private:
 	std::wstring								name;
 	std::vector<std::shared_ptr<Screen>>		screens;

@@ -237,6 +237,14 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				{
 					buttons[0]->setString(L"start");
 				}*/
+				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) != L"Options")
+				{
+					screenManager->setName(L"Options");
+				}
+				else 
+				{
+					screenManager->setName(L"Main");
+				}
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
 				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
@@ -465,7 +473,7 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 	screenManager = std::unique_ptr<ScreenManager>(new ScreenManager());
 
 	Screen* screen = new Screen();
-	screen->setName(L"main");
+	screen->setName(L"Main");
 	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 200)));
 	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(500, 300)));
 	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(500, 400)));
@@ -473,13 +481,13 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 
 	Screen* screen1 = new Screen();
 	screen1 = new Screen();
-	screen1->setName(L"opt");
+	screen1->setName(L"Options");
 	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Music", XMFLOAT2(500, 200)));
 	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Sound", XMFLOAT2(500, 300)));
 	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", XMFLOAT2(500, 400)));
 	screenManager->addElement(screen1);
 
-	screenManager->setName(L"main");
+	screenManager->setName(L"Main");
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
 	//screen->addButton(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 0))));
 	//buttons.push_back(std::unique_ptr<Button>(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(400, 300))));

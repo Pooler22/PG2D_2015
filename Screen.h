@@ -47,6 +47,21 @@ public:
 		return name;
 	}
 
+	std::wstring isClicked(float x, float y)
+	{
+		for (auto &button : buttons)
+		{
+			if (button->isClicked(x, y))
+			{
+				return button->getString();
+			}
+			else
+			{
+				return L"false";
+			}
+		}
+	}
+
 private:
 	std::wstring								name;
 	std::vector<std::shared_ptr<Button>>		buttons;
