@@ -59,6 +59,14 @@ public:
 		return L"false";
 	}
 
+	void updatePosition(float x, float y) 
+	{
+		for (auto &button : buttons) 
+		{
+			button->updatePosition(x, y);
+		}
+	}
+
 private:
 	std::wstring								name;
 	std::vector<std::shared_ptr<Button>>		buttons;

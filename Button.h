@@ -28,7 +28,8 @@ public:
 
 		width = textureWidth = animation->getFrameWidth();
 		height = textureHeight = animation->getFrameHeight();
-
+		position.x -= width/2;
+		position.y -= height/2;
 		updateBoundingRect();
 
 	}
@@ -104,6 +105,13 @@ public:
 	Windows::Foundation::Rect getBoundingRect()
 	{
 		return rectangle;
+	}
+
+	void updatePosition(float x, float y)
+	{
+		position.x *= x;
+		position.y *= y;
+		updateBoundingRect();
 	}
 
 private:

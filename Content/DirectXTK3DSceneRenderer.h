@@ -59,7 +59,7 @@ namespace SimpleSample
 		void Update(DX::StepTimer const& timer);
 		void Update(std::vector<PlayerInputData>* playerInput, unsigned int playersAttached);
 		void Render();
-
+		XMFLOAT2																centerPosition;
         // Signals a new audio device is available
         void NewAudioDevice();
 
@@ -73,7 +73,7 @@ namespace SimpleSample
 
         // Not usefull right now
 		//void XM_CALLCONV DrawGrid(DirectX::FXMVECTOR xAxis, DirectX::FXMVECTOR yAxis, DirectX::FXMVECTOR origin, size_t xdivs, size_t ydivs, DirectX::GXMVECTOR color);
-
+		
         std::unique_ptr<DirectX::SpriteBatch>                                   m_sprites;
 		std::unique_ptr<DirectX::SpriteBatch>                                   spriteBatchT1;
 		std::unique_ptr<DirectX::SpriteBatch>                                   spriteBatchT2;

@@ -62,6 +62,13 @@ public:
 		}
 		return L"false";
 	}
+	void updatePosition(float x, float y)
+	{
+		for (auto &screen : screens)
+		{
+			screen->updatePosition(x, y);
+		}
+	}
 
 private:
 	std::wstring								name;
