@@ -230,39 +230,64 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN:
 				inputText += L"\n FireDown(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
-
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Start") == 0)
+				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"StartMain"))
 				{
 					screenManager->setName(L"Level");
 				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Options") == 0)
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"OptionsMain"))
 				{
 					screenManager->setName(L"Options");
 				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Music") == 0)
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"ExitMain"))
+				{
+					//TO DO: exit
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"MusicOptions"))
+				{
+					//TO DO: music
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"AuthorOptions"))
+				{
+					screenManager->setName(L"Author");
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"BackOptions"))
 				{
 					screenManager->setName(L"Main");
 				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Back") == 0)
-				{
-					screenManager->setName(L"Main");
-				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Offline") == 0)
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"OfflineLevel"))
 				{
 					screenManager->setName(L"Play");
 				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Pause") == 0)
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"OnlineLevel"))
+				{
+					screenManager->setName(L"Play");
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"BackLevel"))
+				{
+					screenManager->setName(L"Main");
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"PausePlay"))
 				{
 					screenManager->setName(L"Pause");
 				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Exit") == 0)
-				{
-					screenManager->setName(L"Main");
-				}
-				if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY).compare(L"Reasume") == 0)
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"ReturnPause"))
 				{
 					screenManager->setName(L"Play");
 				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"ExitPause"))
+				{
+					screenManager->setName(L"Main");
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"DescriptionAuthor"))
+				{
+					//TO DO: ?
+				}
+				else if (screenManager->isClicked(playerAction.PointerRawX, playerAction.PointerRawY) == (L"BackAuthor"))
+				{
+					screenManager->setName(L"Options");
+				}
+
+
 				break;
 			case PLAYER_ACTION_TYPES::INPUT_FIRE_RELEASED:
 				inputText += L"\n FirePressed(" + std::to_wstring(playerAction.NormalizedInputValue) + L") ";
@@ -314,7 +339,6 @@ void DirectXTK3DSceneRenderer::Update(std::vector<PlayerInputData>* playerInputs
 				&m_textLayout[i]
 				)
 			);
-
 		DX::ThrowIfFailed(
 			m_textLayout[i]->GetMetrics(&m_textMetrics[i])
 			);*/
@@ -492,45 +516,45 @@ void DirectXTK3DSceneRenderer::CreateDeviceDependentResources()
 
 	Screen* screen = new Screen();
 	screen->setName(L"Main");
-	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", XMFLOAT2(500, 200)));
-	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", XMFLOAT2(500, 300)));
-	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(500, 400)));
+	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Start", L"StartMain", XMFLOAT2(500, 200)));
+	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Options", L"OptionsMain", XMFLOAT2(500, 300)));
+	screen->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", L"ExitMain", XMFLOAT2(500, 400)));
 	screenManager->addElement(screen);
 
 	Screen* screen1 = new Screen();
 	screen1 = new Screen();
 	screen1->setName(L"Options");
-	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Music", XMFLOAT2(500, 200)));
-	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Author", XMFLOAT2(500, 300)));
-	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", XMFLOAT2(500, 400)));
+	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Music", L"MusicOptions", XMFLOAT2(500, 200)));
+	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Author", L"AuthorOptions", XMFLOAT2(500, 300)));
+	screen1->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", L"BackOptions", XMFLOAT2(500, 400)));
 	screenManager->addElement(screen1);
 
 	Screen* screen2 = new Screen();
 	screen2 = new Screen();
 	screen2->setName(L"Level");
-	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Offline", XMFLOAT2(500, 200)));
-	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Online", XMFLOAT2(500, 300)));
-	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", XMFLOAT2(500, 400)));
+	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Offline", L"OfflineLevel", XMFLOAT2(500, 200)));
+	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Online", L"OnlineLevel", XMFLOAT2(500, 300)));
+	screen2->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", L"BackLevel", XMFLOAT2(500, 400)));
 	screenManager->addElement(screen2);
 
 	Screen* screen3 = new Screen();
 	screen3 = new Screen();
 	screen3->setName(L"Play");
-	screen3->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Pause", XMFLOAT2(500, 20)));
+	screen3->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Pause", L"PausePlay", XMFLOAT2(500, 20)));
 	screenManager->addElement(screen3);
 
 	Screen* screen4 = new Screen();
 	screen4 = new Screen();
 	screen4->setName(L"Pause");
-	screen4->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Return", XMFLOAT2(500, 200)));
-	screen4->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", XMFLOAT2(500, 300)));
+	screen4->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Return", L"ReturnPause", XMFLOAT2(500, 200)));
+	screen4->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Exit", L"ExitPause", XMFLOAT2(500, 300)));
 	screenManager->addElement(screen4);
 
 	Screen* screen5= new Screen();
 	screen5 = new Screen();
-	screen5->setName(L"Level");
-	screen5->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"It's me ;)", XMFLOAT2(500, 500)));
-	screen5->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", XMFLOAT2(500, 500)));
+	screen5->setName(L"Author");
+	screen5->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"It's me ;)", L"DescriptionAuthor", XMFLOAT2(500, 400)));
+	screen5->addElement(new Button(m_texture.Get(), new SpriteFont(device, L"assets\\italic.spritefont"), L"Back", L"BackAuthor", XMFLOAT2(500, 500)));
 	screenManager->addElement(screen5);
 
 	screenManager->setName(L"Main");

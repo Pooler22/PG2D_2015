@@ -1,5 +1,6 @@
 #pragma once
 
+#include <wrl.h>
 #include <Content\AnimatedTexture.h>
 #include <SpriteBatch.h>
 #include <DirectXMath.h>
@@ -9,34 +10,19 @@
 class Button
 {
 public:
-	Button(ID3D11ShaderResourceView* playerSpriteSheet, SpriteFont *spriteFont, std::wstring inString, XMFLOAT2 inPosition) : framesOfAnimation(4), framesToBeShownPerSecond(4)
+	Button(ID3D11ShaderResourceView* playerSpriteSheet, SpriteFont *spriteFont, std::wstring inString, std::wstring inId, XMFLOAT2 inPosition) : framesOfAnimation(4), framesToBeShownPerSecond(4)
 	{
+		float rotation = 0.f;
+		float scale = 3.f;
+
+		id = inId;
 		string = inString;
 		position = inPosition;
 
 		texture = playerSpriteSheet;
-		float rotation = 0.f;
-		float scale = 3.f;
 		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, 3, 0.5f));
 		animation->Load(texture.Get(), framesOfAnimation, framesToBeShownPerSecond);
 
-		m_font.reset(spriteFont);
-
-		width = textureWidth = animation->getFrameWidth();
-		height = textureHeight = animation->getFrameHeight();
-
-		updateBoundingRect();
-
-	}
-
-	Button(ID3D11ShaderResourceView* playerSpriteSheet, SpriteFont *spriteFont) : framesOfAnimation(4), framesToBeShownPerSecond(4)
-	{
-		//Instantiate animation here
-		texture = playerSpriteSheet;
-		float rotation = 0.f;
-		float scale = 3.f;
-		animation.reset(new AnimatedTexture(DirectX::XMFLOAT2(0.f, 0.f), rotation, scale, 0.5f));
-		animation->Load(texture.Get(), framesOfAnimation, framesToBeShownPerSecond);
 		color = Colors::Black;
 		m_font.reset(spriteFont);
 
@@ -44,8 +30,8 @@ public:
 		height = textureHeight = animation->getFrameHeight();
 
 		updateBoundingRect();
-	}
 
+	}
 
 	void setPosition(DirectX::XMFLOAT2 newPosition)
 	{

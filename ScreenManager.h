@@ -27,7 +27,7 @@ public:
 	{
 		for (auto &screen : screens)
 		{
-			if (screen->getName() == name)
+			if (screen->getName().compare(name) == 0)
 				screen->Update(elapsed);
 		}
 	}

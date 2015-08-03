@@ -53,7 +53,7 @@ public:
 		{
 			if (button->isClicked(x, y))
 			{
-				return button->getString();
+				return button->getId();
 			}
 		}
 		return L"false";
